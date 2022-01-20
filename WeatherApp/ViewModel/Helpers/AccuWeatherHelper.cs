@@ -9,18 +9,18 @@ using WeatherApp.Model;
 
 namespace WeatherApp.ViewModel.Helpers
 {
-    class AccuWeatherHelper
+    public class AccuWeatherHelper
     {
-        public const string BASE_URL = "http://dataservice.accuweater.com/ ";
+        public const string BASE_URL = "http://dataservice.accuweather.com/";
         public const string AUTOCOMPLETE_ENDPOINT = "locations/v1/cities/autocomplete?apikey={0}&q={1}";
-        public const string CURRENT_CONDITION_ENDPOINT = "currentconditions/v1/{0}?apikey={1}";
-        public const string API_KEY = "u8PTaY74NvRVX1mEylWIHthVyODHtLca";
-
+        public const string CURRENT_CONDITIONS_ENDPOINT = "currentconditions/v1/{0}?apikey={1}";
+        public const string API_KEY = "Sx1OF3piASbTJyfXPVv0HJm65AWLnTV6";
+        
         public static async Task<List<City>> GetCities(string query)
         {
             List<City> cities = new List<City>();
 
-            string url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT,API_KEY,query);
+            string url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query);
 
             using(HttpClient client = new HttpClient())
             {
@@ -33,21 +33,21 @@ namespace WeatherApp.ViewModel.Helpers
             return cities;
         }
 
-        public static async Task<CurrentConditions> GetCurrentConditions(string citykey)
+        public static async Task<CurrrentConditions> GetCurrrentConditions(string cityKey)
         {
-            CurrentConditions currentConditions = new CurrentConditions();
+            CurrrentConditions currrentConditions = new CurrrentConditions();
 
-            string url = BASE_URL + string.Format(citykey, CURRENT_CONDITION_ENDPOINT, citykey);
+            string url = BASE_URL + string.Format(CURRENT_CONDITIONS_ENDPOINT, cityKey, API_KEY);
 
             using (HttpClient client = new HttpClient())
             {
                 var response = await client.GetAsync(url);
                 string json = await response.Content.ReadAsStringAsync();
 
-                currentConditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
+                currrentConditions = (JsonConvert.DeserializeObject<List<CurrrentConditions>>(json)).FirstOrDefault();
             }
 
-            return currentConditions;
+            return currrentConditions;
         }
     }
 }

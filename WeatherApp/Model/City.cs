@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherApp.Model
 {
-    public class Area   
+    public class Area
     {
         public string ID { get; set; }
         public string LocalizedName { get; set; }
@@ -22,4 +22,6 @@ namespace WeatherApp.Model
         public Area Country { get; set; }
         public Area AdministrativeArea { get; set; }
     }
+
+
 }
